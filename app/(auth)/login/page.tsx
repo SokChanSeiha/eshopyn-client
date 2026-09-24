@@ -1,24 +1,28 @@
+"use client";
+
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldLegend,
-  FieldSeparator,
   FieldSet,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from "lucide-react";
 
 export function Login() {
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+
   return (
     <div className="w-full">
-      {/* login form title*/}
+      {/* login form title */}
       <div className="mb-6 text-center">
         <h1 className="text-xl font-bold">SIGN IN ACCOUNT</h1>
         <p className="text-muted-foreground">
@@ -29,46 +33,71 @@ export function Login() {
         </p>
       </div>
 
-        <form>
-          <FieldGroup>
-            <FieldSet>
-              <FieldGroup>
-                <Field>
-                  <FieldDescription>PERSONAL INFORMATION</FieldDescription>
-                  <FieldLabel htmlFor="login-account-label">
-                    Account Information
-                  </FieldLabel>
-                  <Input
+      <form>
+        <FieldGroup>
+          <FieldSet>
+            <FieldGroup>
+              <Field>
+                <FieldDescription>PERSONAL INFORMATION</FieldDescription>
+                <FieldLabel htmlFor="login-account-input">
+                  Account Information
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput
                     id="login-account-input"
                     placeholder="Enter your username or email"
                     required
                   />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="login-password-label">
-                    Password
-                  </FieldLabel>
-                  <Input
+                  <InputGroupAddon>
+                    <UserIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
+
+              <Field>
+                <FieldLabel htmlFor="login-password-input">
+                  Password
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupAddon>
+                    <LockIcon />
+                  </InputGroupAddon>
+                  <InputGroupInput
                     id="login-password-input"
-                    type="password"
+                    type={isPasswordVisible ? "text" : "password"}
                     placeholder="Enter your password"
                     required
                   />
-                </Field>
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      type="button"
+                      onClick={() => setIsPasswordVisible((prev) => !prev)}
+                      size="icon-xs"
+                      aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+                    >
+                      {isPasswordVisible ? (
+                        <EyeOffIcon className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
 
-                <a
-                  href="#"
-                  className="ml-auto text-blue-600 text-sm hover:underline"
-                >
-                  Forgot your password?
-                </a>
-                <Button type="submit" size="lg" className="w-full text-xl">
-                  Submit
-                </Button>
-              </FieldGroup>
-            </FieldSet>
-          </FieldGroup>
-        </form>
+              <a
+                href="#"
+                className="ml-auto text-blue-600 text-sm hover:underline"
+              >
+                Forgot your password?
+              </a>
+              <Button type="submit" size="lg" className="w-full text-xl">
+                Log in
+              </Button>
+            </FieldGroup>
+          </FieldSet>
+        </FieldGroup>
+      </form>
     </div>
   );
 }

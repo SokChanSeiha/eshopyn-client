@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { EyeOffIcon, LockIcon, MailIcon, PhoneIcon, UserIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, LockIcon, MailIcon, PhoneIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -29,7 +29,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import {
   InputGroup,
-  InputGroupAddon,
+  InputGroupAddon, 
+  InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -38,6 +39,7 @@ import { cn } from "@/lib/utils";
 export function Signup() {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
   return (
     <div className="w-full">
@@ -154,14 +156,32 @@ export function Signup() {
                 <FieldLabel htmlFor="signup-password-label">
                   Password
                 </FieldLabel>
+                <FieldLabel htmlFor="login-password-input">
+                  Password
+                </FieldLabel>
                 <InputGroup>
-                  <InputGroupInput
-                    id="inline-end-input"
-                    type="password"
-                    placeholder="Enter password"
-                  />
                   <InputGroupAddon>
                     <LockIcon />
+                  </InputGroupAddon>
+                  <InputGroupInput
+                    id="login-password-input"
+                    type={isPasswordVisible ? "text" : "password"}
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      type="button"
+                      onClick={() => setIsPasswordVisible((prev) => !prev)}
+                      size="icon-xs"
+                      aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+                    >
+                      {isPasswordVisible ? (
+                        <EyeOffIcon className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </InputGroupButton>
                   </InputGroupAddon>
                 </InputGroup>
                 <FieldDescription className="text-xs leading-none">
@@ -178,7 +198,7 @@ export function Signup() {
                   </FieldLabel>
                 </Field>
                 <Button type="submit" size="lg" className="w-full text-xl">
-                  Submit
+                  Create account
                 </Button>
               </Field>
             </FieldGroup>
