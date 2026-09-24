@@ -10,7 +10,7 @@ export default function AuthLayout({
   return (
     <main className="min-h-screen w-full flex flex-col items-center bg-muted/30">
       {/*  Header text */}
-      <header className="w-full border-b border-black bg-amber-300 p-4">
+      <header className="w-full border-b border-gray shadow p-4">
         <Link href="/" className="inline-flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white shadow-sm">
             E
