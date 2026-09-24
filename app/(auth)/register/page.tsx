@@ -69,6 +69,7 @@ export function Signup() {
                   <InputGroupInput
                     type="text"
                     placeholder="Enter your username"
+                    required
                   />
                   <InputGroupAddon>
                     <UserIcon />
@@ -147,16 +148,13 @@ export function Signup() {
                   Phone number
                 </FieldLabel>
                 <InputGroup>
-                  <InputGroupInput type="email" placeholder="(+855)" />
+                  <InputGroupInput placeholder="(+855)" />
                   <InputGroupAddon>
                     <PhoneIcon />
                   </InputGroupAddon>
                 </InputGroup>
 
                 <FieldLabel htmlFor="signup-password-label">
-                  Password
-                </FieldLabel>
-                <FieldLabel htmlFor="login-password-input">
                   Password
                 </FieldLabel>
                 <InputGroup>
