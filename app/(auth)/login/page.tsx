@@ -18,6 +18,7 @@ import {
 export function Login() {
   return (
     <div className="w-full">
+      {/* login form title*/}
       <div className="mb-6 text-center">
         <h1 className="text-xl font-bold">SIGN IN ACCOUNT</h1>
         <p className="text-muted-foreground">
@@ -33,6 +34,7 @@ export function Login() {
             <FieldSet>
               <FieldGroup>
                 <Field>
+                  <FieldDescription>PERSONAL INFORMATION</FieldDescription>
                   <FieldLabel htmlFor="login-account-label">
                     Account Information
                   </FieldLabel>

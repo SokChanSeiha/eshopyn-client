@@ -1,3 +1,7 @@
+"use client";
+
+import * as React from "react";
+import { EyeOffIcon, LockIcon, MailIcon, PhoneIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -14,10 +18,30 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 
 export function Signup() {
+  const [open, setOpen] = React.useState(false);
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
+
   return (
     <div className="w-full">
+      {/* register form title*/}
       <div className="mb-6 text-center">
         <h1 className="text-xl font-bold">CREATE AN ACCOUNT</h1>
         <p className="text-muted-foreground">
@@ -28,45 +52,139 @@ export function Signup() {
         </p>
       </div>
 
-        <form>
-          <FieldGroup>
-            <FieldSet>
-              <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="login-account-label">
-                    Account Information
-                  </FieldLabel>
-                  <Input
-                    id="login-account-input"
-                    placeholder="Enter your username or email"
-                    required
+      {/* register form */}
+      <form>
+        <FieldGroup>
+          <FieldSet>
+            <FieldGroup>
+              {/* Personal Information */}
+              <Field>
+                <FieldDescription>PERSONAL INFORMATION</FieldDescription>
+                <FieldLabel htmlFor="signup-account-label">
+                  Full name
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput
+                    type="text"
+                    placeholder="Enter your username"
                   />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="login-password-label">
-                    Password
-                  </FieldLabel>
-                  <Input
-                    id="login-password-input"
-                    type="password"
-                    placeholder="Enter your password"
-                    required
+                  <InputGroupAddon>
+                    <UserIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+                <FieldLabel htmlFor="date">Date of birth</FieldLabel>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger
+                    render={
+                      <Button
+                        variant="outline"
+                        id="date"
+                        className={cn(
+                          "w-full justify-start font-normal text-left",
+                          !date && "text-muted-foreground",
+                          date && "text-foreground",
+                        )}
+                      >
+                        <CalendarIcon data-icon="inline-start" />
+                        {date ? date.toLocaleDateString() : "MM/DD/YYYY"}
+                      </Button>
+                    }
                   />
-                </Field>
 
-                <a
-                  href="#"
-                  className="ml-auto text-blue-600 text-sm hover:underline"
-                >
-                  Forgot your password?
-                </a>
+                  <PopoverContent
+                    className="w-auto overflow-hidden p-0"
+                    align="start"
+                  >
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      defaultMonth={date}
+                      captionLayout="dropdown"
+                      onSelect={(date) => {
+                        setDate(date);
+                        setOpen(false);
+                      }}
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <FieldLabel htmlFor="signup-gender-label">Gender</FieldLabel>
+                <RadioGroup defaultValue="male" className="w-fit flex gap-6">
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="male" id="r1" />
+                    <Label htmlFor="gender-male">Male</Label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="female" id="r2" />
+                    <Label htmlFor="gender-female">Female</Label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="other" id="r3" />
+                    <Label htmlFor="gender-other">Other</Label>
+                  </div>
+                </RadioGroup>
+              </Field>
+
+              {/* Account Connection */}
+              <Field>
+                <FieldDescription>ACCOUNT CONNECTION</FieldDescription>
+                <FieldLabel htmlFor="signup-email-label">
+                  Email address
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput
+                    type="email"
+                    placeholder="name@example.com"
+                  />
+                  <InputGroupAddon>
+                    <MailIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+
+                <FieldLabel htmlFor="signup-phone-label">
+                  Phone number
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput type="email" placeholder="(+855)" />
+                  <InputGroupAddon>
+                    <PhoneIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+
+                <FieldLabel htmlFor="signup-password-label">
+                  Password
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput
+                    id="inline-end-input"
+                    type="password"
+                    placeholder="Enter password"
+                  />
+                  <InputGroupAddon>
+                    <LockIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+                <FieldDescription className="text-xs leading-none">
+                  Password with atleast one uppercase, lowercase letter, and a
+                  special character.
+                </FieldDescription>
+                <Field orientation="horizontal" className="pt-2">
+                  <Checkbox id="toggle-checkbox" name="toggle-checkbox" />
+                  <FieldLabel htmlFor="toggle-checkbox">
+                    I have read and agree to the
+                    <a className="text-blue-600 text-sm hover:underline">
+                      Terms and Conditions
+                    </a>
+                  </FieldLabel>
+                </Field>
                 <Button type="submit" size="lg" className="w-full text-xl">
                   Submit
                 </Button>
-              </FieldGroup>
-            </FieldSet>
-          </FieldGroup>
-        </form>
+              </Field>
+            </FieldGroup>
+          </FieldSet>
+        </FieldGroup>
+      </form>
     </div>
   );
 }
