@@ -5,7 +5,7 @@ import { Login } from "./(auth)/login/page";
 export function Home() {
   return (
     <main>
-      <Login />
+      <h1>Hello</h1>
     </main>
   );
 };
