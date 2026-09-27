@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/input-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import AuthNavbar from "@/components/auth/auth-navbar";
 
 export function Signup() {
   const [open, setOpen] = React.useState(false);
@@ -35,16 +36,7 @@ export function Signup() {
 
   return (
     <div className="w-full">
-      {/* register form title*/}
-      <div className="mb-6 text-center">
-        <h1 className="text-xl font-bold">CREATE AN ACCOUNT</h1>
-        <p className="text-muted-foreground">
-          Already have an account?
-          <a href="#" className="pl-1 text-blue-600 text-sm hover:underline">
-            Sign In
-          </a>
-        </p>
-      </div>
+      <AuthNavbar/>
 
       {/* register form */}
       <form>
