@@ -16,17 +16,18 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from "lucide-react";
+import AuthNavbar from "@/components/auth/auth-navbar";
 
 export function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
   return (
-    <div className="w-full">
-      {/* login form title */}
-      <div className="mb-6 text-center">
-        <h1 className="text-xl font-bold">SIGN IN ACCOUNT</h1>
+    <div className="w-full max-w-md bg-card p-6 border rounded-xl shadow-sm">
+      
+      <div className="mb-6 text-center w-full">
+        <h1 className="text-xl font-bold">CREATE AN ACCOUNT</h1>
         <p className="text-muted-foreground">
-          Not yet have an account?
+          Already have an account?
           <a href="#" className="pl-1 text-blue-600 text-sm hover:underline">
             Sign Up
           </a>
