@@ -1,6 +1,5 @@
 // app/(auth)/layout.tsx
 import React from 'react'
-import Link from 'next/link'
 import AuthNavbar from '@/components/auth/auth-navbar'
 
 export default function AuthLayout({
