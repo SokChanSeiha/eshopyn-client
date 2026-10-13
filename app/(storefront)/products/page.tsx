@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Star, Trash2, Plus, Minus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -130,10 +131,10 @@ export default function ProductLists() {
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {PRODUCTS.map((product) => (
-          <div
+<Link
             key={product.id}
-            onClick={() => addToCart(product)}
-            className="group cursor-pointer flex flex-col bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs hover:shadow-md transition-shadow"
+            href={`/products/${product.id}`}
+            className="group cursor-pointer flex flex-col bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-[0_0_10px_rgba(0,0,0,0.13)] transition-shadow"
           >
             {/* Image Container with Badge */}
             <div className="relative aspect-4/3 w-full bg-[#f4f4f4] overflow-hidden">
@@ -141,7 +142,18 @@ export default function ProductLists() {
                 <Star className="w-3 h-3 fill-gray-900 text-gray-900" />
                 {product.rating}
               </span>
-
+              {/* Hover Add Icon */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault() // Prevents Link navigation
+                  e.stopPropagation() // Prevents the card's onClick from firing
+                  addToCart(product)
+                }}
+                className="absolute top-3 right-3 z-10 p-1.5 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 text-gray-900"
+              >
+                <Plus className="w-5 h-5" />
+              </button>
               <Image
                 src={product.image}
                 alt={product.name}
@@ -160,7 +172,7 @@ export default function ProductLists() {
                 ${product.price}.00
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
