@@ -26,6 +26,8 @@ const PRODUCT = {
   images: [
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&q=80&w=800',
   ],
@@ -75,21 +77,21 @@ const scrollContainerRef = React.useRef<HTMLDivElement>(null)
   }
 
   return (
-      <main className="max-w-full mx-24 px-4 py-8">
+      <main className="max-w-full py-6">
         {/* Main Product Showcase Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT: Image Gallery Column (Col 1-8) */}
-          <div className="lg:col-span-8 flex flex-col-reverse md:flex-row gap-4">
+          <div className="lg:col-span-7 flex flex-col-reverse md:flex-row gap-4">
             {/* Vertical Thumbnails */}
-            <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto shrink-0 py-1">
+            <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto shrink-0">
               {PRODUCT.images.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
                   className={`relative w-16 h-16 rounded-md overflow-hidden border transition-all ${
                     selectedImage === idx
-                      ? 'border-black ring-1 ring-black'
+                      ? 'border-4'
                       : 'border-transparent hover:border-gray-300'
                   }`}
                 >
@@ -148,7 +150,7 @@ const scrollContainerRef = React.useRef<HTMLDivElement>(null)
           </div>
 
           {/* RIGHT: Product Details & Purchase Actions (Col 9-12) */}
-          <div className="lg:col-span-4 lg:sticky lg:top-8 flex flex-col space-y-6">
+          <div className="lg:col-span-5 lg:sticky lg:top-8 flex flex-col space-y-6">
             {/* Header info */}
             <div>
               <h1 className="text-2xl font-bold tracking-tight">{PRODUCT.title}</h1>

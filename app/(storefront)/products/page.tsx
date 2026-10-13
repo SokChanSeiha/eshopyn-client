@@ -83,9 +83,9 @@ export default function ProductLists() {
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-10">
+    <main className="max-w-full">
       {/* Header Section */}
-      <div className="text-center space-y-2 mb-8">
+      <div className="text-center py-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Our Product</h1>
         <p className="text-sm text-gray-500 font-medium">
           You&apos;ll find everything maximize your life to another level, stay amazing !
@@ -254,6 +254,6 @@ export default function ProductLists() {
           )}
         </SheetContent>
       </Sheet>
-    </div>
+    </main>
   )
 }

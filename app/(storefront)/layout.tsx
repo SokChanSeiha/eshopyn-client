@@ -11,7 +11,7 @@ export default function StorefrontLayout({
       <AuthNavbar />
 
       {/* Main Full-Width Content Container */}
-      <div className="w-full flex-1 flex justify-center my-2">
+      <div className="w-full max-w-8/10 mx-auto">
         {children}
       </div>
     </div>
