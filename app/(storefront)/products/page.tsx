@@ -11,6 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
+import { useCart } from '@/app/context/cart-context'
 
 interface Product {
   id: number
@@ -39,52 +40,13 @@ const PRODUCTS: Product[] = Array.from({ length: 8 }).map((_, index) => ({
   rating: '4.5',
   image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&q=80&w=800',
 }))
-
 export default function ProductLists() {
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null)
-  const [cart, setCart] = React.useState<CartItem[]>([])
-  const [isCartOpen, setIsCartOpen] = React.useState(false)
-
-  // Add product to cart & trigger drawer
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id)
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      }
-      return [...prevCart, { ...product, quantity: 1 }]
-    })
-    setIsCartOpen(true)
-  }
-
-  // Update item quantity
-  const updateQuantity = (id: number, delta: number) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((item) => {
-          if (item.id === id) {
-            const nextQty = item.quantity + delta
-            return nextQty > 0 ? { ...item, quantity: nextQty } : null
-          }
-          return item
-        })
-        .filter((item): item is CartItem => item !== null)
-    )
-  }
-
-  // Remove single line item
-  const removeFromCart = (id: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id))
-  }
-
-  const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  const { addToCart } = useCart() // Connected globally!
 
   return (
     <main className="max-w-full">
+      {/* Header and Filter Buttons ... */}
       {/* Header Section */}
       <div className="text-center py-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Our Product</h1>
@@ -131,29 +93,29 @@ export default function ProductLists() {
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {PRODUCTS.map((product) => (
-<Link
+          <Link
             key={product.id}
             href={`/products/${product.id}`}
             className="group cursor-pointer flex flex-col bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-[0_0_10px_rgba(0,0,0,0.13)] transition-shadow"
           >
-            {/* Image Container with Badge */}
             <div className="relative aspect-4/3 w-full bg-[#f4f4f4] overflow-hidden">
               <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white/95 px-2.5 py-0.5 text-xs font-semibold text-gray-800 shadow-2xs backdrop-blur-xs">
                 <Star className="w-3 h-3 fill-gray-900 text-gray-900" />
                 {product.rating}
               </span>
-              {/* Hover Add Icon */}
+
               <button
                 type="button"
                 onClick={(e) => {
-                  e.preventDefault() // Prevents Link navigation
-                  e.stopPropagation() // Prevents the card's onClick from firing
-                  addToCart(product)
+                  e.preventDefault()
+                  e.stopPropagation()
+                  addToCart(product) // Adds and opens the CartSheet globally
                 }}
                 className="absolute top-3 right-3 z-10 p-1.5 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 text-gray-900"
               >
                 <Plus className="w-5 h-5" />
               </button>
+
               <Image
                 src={product.image}
                 alt={product.name}
@@ -163,7 +125,6 @@ export default function ProductLists() {
               />
             </div>
 
-            {/* Product Meta */}
             <div className="flex items-center justify-between p-4 pt-3 bg-white">
               <h3 className="text-sm font-medium text-gray-900 truncate">
                 {product.name}
@@ -175,97 +136,6 @@ export default function ProductLists() {
           </Link>
         ))}
       </div>
-
-      {/* Cart Drawer / Slide-Over Sheet */}
-      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-md flex flex-col p-6">
-          <SheetHeader className="pb-4">
-            <SheetTitle className="text-2xl font-bold text-center">Carts</SheetTitle>
-          </SheetHeader>
-
-          {/* Cart Item List (Scrollable Area) */}
-          <div className="flex-1 overflow-y-auto divide-y divide-gray-100 pr-1">
-            {cart.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-sm text-gray-500">
-                Your cart is empty.
-              </div>
-            ) : (
-              cart.map((item) => (
-                <div key={item.id} className="py-4 flex items-center gap-3">
-                  {/* Thumbnail */}
-                  <div className="relative h-16 w-16 rounded-xl bg-gray-100 overflow-hidden shrink-0">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-
-                  {/* Info & Quantity Stepper */}
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-gray-900 truncate">
-                      {item.name}
-                    </h4>
-                    <div className="flex items-center gap-2 mt-2">
-                      <button
-                        type="button"
-                        onClick={() => updateQuantity(item.id, 1)}
-                        className="h-6 w-6 inline-flex items-center justify-center rounded-md hover:bg-gray-100 text-gray-600 transition-colors"
-                      >
-                        <Plus className="h-3 w-3" />
-                      </button>
-                      <span className="text-sm font-medium">{item.quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => updateQuantity(item.id, -1)}
-                        className="h-6 w-6 inline-flex items-center justify-center rounded-md hover:bg-gray-100 text-gray-600 transition-colors"
-                      >
-                        <Minus className="h-3 w-3" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Trash Icon & Line-Item Price */}
-                  <div className="flex flex-col items-end justify-between self-stretch">
-                    <button
-                      type="button"
-                      onClick={() => removeFromCart(item.id)}
-                      className="text-red-500 hover:text-red-600 p-1 transition-colors"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                    <span className="text-sm font-semibold text-gray-900">
-                      ${item.price * item.quantity}
-                    </span>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-
-          {/* Footer Area Matching Figma */}
-          {cart.length > 0 && (
-            <div className="pt-4 border-t border-gray-100 space-y-4">
-              <div className="flex justify-between items-baseline text-xs text-gray-500">
-                <span>Subtotal</span>
-                <span className="font-medium text-gray-900">${subtotal.toLocaleString()}</span>
-              </div>
-              <p className="text-[11px] text-gray-400">
-                Delivery Fee will be shown after you review order
-              </p>
-              <div className="flex justify-between items-center text-lg font-bold text-gray-900 pt-2">
-                <span>Total</span>
-                <span>${subtotal.toLocaleString()}</span>
-              </div>
-
-              <Button className="w-full h-12 bg-neutral-950 hover:bg-neutral-900 text-white rounded-xl font-medium text-sm transition-colors">
-                Review Order
-              </Button>
-            </div>
-          )}
-        </SheetContent>
-      </Sheet>
     </main>
   )
 }
