@@ -29,7 +29,7 @@ export default function StorefrontNavbar() {
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center justify-between w-48 sm:w-64 h-9 px-4 rounded-full border border-gray-200 bg-gray-100 text-sm text-gray-500 hover:bg-gray-200/70 transition-colors cursor-pointer"
+              className="flex items-center justify-between w-42  h-9 px-4 rounded-full border border-gray-200 bg-gray-100 text-sm text-gray-500 hover:bg-gray-200/70 transition-colors cursor-pointer"
             >
               <span>Search...</span>
               <div className="flex items-center gap-1.5">
