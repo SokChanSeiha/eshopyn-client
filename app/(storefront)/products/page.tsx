@@ -47,7 +47,6 @@ export default function ProductLists() {
   return (
     <main className="max-w-full">
       {/* Header and Filter Buttons ... */}
-      {/* Header Section */}
       <div className="text-center py-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Our Product</h1>
         <p className="text-sm text-gray-500 font-medium">
