@@ -1,4 +1,5 @@
 import AuthNavbar from "@/components/auth/auth-navbar";
+import StorefrontNavbar from "@/components/storefront/storefront-navbar";
 
 export default function StorefrontLayout({
   children,
@@ -8,7 +9,7 @@ export default function StorefrontLayout({
   return (
     <div className="w-full flex-1 flex flex-col">
       {/* Header */}
-      <AuthNavbar />
+      <StorefrontNavbar />
 
       {/* Main Full-Width Content Container */}
       <div className="w-full max-w-8/10 mx-auto">
