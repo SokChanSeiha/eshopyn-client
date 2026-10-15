@@ -1,14 +1,46 @@
-'use client'
+"use client";
 
-import * as React from 'react'
-import { CircleUserRound, Search, ShoppingBag } from 'lucide-react'
-import Link from 'next/link'
-import { useCart } from '@/app/context/cart-context'
-import { SearchCommand } from './search-command'
+import * as React from "react";
+import {
+  PackageCheck,
+  CircleUserRound,
+  Search,
+  ShoppingBag,
+  UserRoundCog,
+  PaletteIcon,
+  SunIcon,
+  MoonIcon,
+  LogOutIcon,
+  SettingsIcon,
+} from "lucide-react";
+import Link from "next/link";
+import { useCart } from "@/app/context/cart-context";
+import { SearchCommand } from "./search-command";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuPortal,
+} from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function StorefrontNavbar() {
-  const { setIsCartOpen, totalCount } = useCart()
-  const [isSearchOpen, setIsSearchOpen] = React.useState(false)
+  const { setIsCartOpen, totalCount } = useCart();
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const [theme, setTheme] = React.useState("light");
 
   return (
     <>
@@ -54,7 +86,70 @@ export default function StorefrontNavbar() {
             </button>
 
             {/* Profile */}
-            <CircleUserRound className="w-6 h-6 text-gray-700 hover:text-gray-900 cursor-pointer" />
+
+            <DropdownMenu>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <DropdownMenuTrigger
+                      className="p-1 text-gray-700 hover:text-gray-900 transition-colors cursor-pointer outline-hidden"
+                      aria-label="Account menu"
+                    />
+                  }
+                >
+                  <CircleUserRound className="w-6 h-6" />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>name@gmail.com</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <DropdownMenuContent align="center" className="w-36">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <PackageCheck />
+                    My Orders
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <UserRoundCog />
+                    Account Setting
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <PaletteIcon />
+                      Theme
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuGroup>
+                          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+                          <DropdownMenuRadioGroup
+                            value={theme}
+                            onValueChange={setTheme}
+                          >
+                            <DropdownMenuRadioItem value="light">
+                              <SunIcon />
+                              Light
+                            </DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="dark">
+                              <MoonIcon />
+                              Dark
+                            </DropdownMenuRadioItem>
+                          </DropdownMenuRadioGroup>
+                        </DropdownMenuGroup>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem variant="destructive">
+                  <LogOutIcon />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -62,5 +157,5 @@ export default function StorefrontNavbar() {
       {/* Global Command Dialog Modal */}
       <SearchCommand open={isSearchOpen} onOpenChange={setIsSearchOpen} />
     </>
-  )
+  );
 }
