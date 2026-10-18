@@ -9,8 +9,6 @@ import {
   ShoppingCart,
   Users,
   Settings,
-  LogOut,
-  ExternalLink,
 } from "lucide-react";
 import {
   Sidebar,
@@ -24,6 +22,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 
 const adminNavItems = [
@@ -31,14 +30,13 @@ const adminNavItems = [
   { title: "Products", url: "/admin/products", icon: Package },
   { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
   { title: "Customers", url: "/admin/customers", icon: Users },
-  { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" >
       {/* 1. TOP HEADER: Brand Logo */}
       <SidebarHeader>
         <SidebarMenu>
@@ -49,9 +47,6 @@ export function AppSidebar() {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-bold">Shopyn</span>
-                <span className="truncate text-xs text-muted-foreground">
-                  Admin Portal
-                </span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -61,7 +56,7 @@ export function AppSidebar() {
       {/* 2. MIDDLE CONTENT: Navigation Links */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Management</SidebarGroupLabel>
+          <SidebarGroupLabel>OVERVIEW</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {adminNavItems.map((item) => {
@@ -86,23 +81,21 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-       
       </SidebarContent>
 
-      {/* 3. BOTTOM FOOTER: Logout */}
+            {/* 3. BOTTOM FOOTER: Divider Line + Settings */}
+      <SidebarSeparator className="mx-0" />
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              tooltip="Log out"
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
-              onClick={() => {
-                // Handle admin logout
-              }}
+              isActive={pathname.startsWith("/admin/settings")}
+              tooltip="Settings"
+              render={<Link href="/admin/settings" />}
+              className="text-black hover:text-black hover:bg-gray-100 cursor-pointer"
             >
-              <LogOut />
-              <span>Log out</span>
+              <Settings />
+              <span>Settings</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
