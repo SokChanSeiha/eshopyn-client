@@ -6,9 +6,12 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Package,
-  ShoppingCart,
   Users,
   Settings,
+  Group,
+  ShoppingCartPlus,
+  BadgeDollarSign,
+  Warehouse,
 } from "lucide-react";
 import {
   Sidebar,
@@ -27,9 +30,14 @@ import {
 
 const adminNavItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Categories", url: "/admin/categories", icon: Group },
   { title: "Products", url: "/admin/products", icon: Package },
-  { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
-  { title: "Customers", url: "/admin/customers", icon: Users },
+  { title: "Users", url: "/admin/users", icon: Users },
+  { title: "Sales", url: "/admin/sales", icon: BadgeDollarSign },
+  { title: "Purchases", url: "/admin/purchases", icon: ShoppingCartPlus },
+  { title: "Inventories", url: "/admin/inventories", icon: Warehouse },
+
+
 ];
 
 export function AppSidebar() {
@@ -66,7 +74,7 @@ export function AppSidebar() {
                     : pathname.startsWith(item.url);
 
                 return (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem className="py-0.5" key={item.title}>
                     <SidebarMenuButton
                       isActive={isActive}
                       tooltip={item.title}
@@ -83,7 +91,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-            {/* 3. BOTTOM FOOTER: Divider Line + Settings */}
+        {/* 3. BOTTOM FOOTER: Divider Line + Settings */}
       <SidebarSeparator className="mx-0" />
       <SidebarFooter>
         <SidebarMenu>
